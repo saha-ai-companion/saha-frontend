@@ -65,7 +65,7 @@ export async function loginUser(
 
   if (!response.ok) {
     throw new Error(
-      data.message || "Login failed"
+      data.detail || data.message || "Login failed"
     );
   }
 
@@ -86,7 +86,7 @@ export async function getMyProfile() {
 
   if (!response.ok) {
     throw new Error(
-      data.message || "Failed to get profile"
+      data.detail || data.message || "Failed to get profile"
     );
   }
 
@@ -112,7 +112,7 @@ export async function sendMessage(
 
   if (!response.ok) {
     throw new Error(
-      data.message || "Failed to send message"
+      data.detail || data.message || "Failed to send message"
     );
   }
 
