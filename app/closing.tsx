@@ -54,7 +54,7 @@ export default function ClosingReflectionScreen() {
         <Animated.View style={{ opacity: fadeAnim }}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => router.replace('/chat')}
+            onPress={() => router.replace('/(auth)/register')}
             activeOpacity={0.8}
           >
             <Text style={styles.buttonText}>Start</Text>
