@@ -1,4 +1,4 @@
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
 import {
   ActivityIndicator,
@@ -13,9 +13,17 @@ import {
   View,
 } from "react-native";
 import { saveTokens } from "../../lib/storage";
-import { registerUser } from "../../services/api";
+import { registerUser, saveOnboarding } from "../../services/api";
 
 export default function RegisterScreen() {
+  const { sobriety_status, framework, trigger_map, their_why } =
+    useLocalSearchParams<{
+      sobriety_status: string;
+      framework: string;
+      trigger_map: string;
+      their_why: string;
+    }>();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -41,10 +49,21 @@ export default function RegisterScreen() {
     try {
       const data = await registerUser(email.trim(), password);
 
-      // Save access and refresh tokens securely
+      // Save tokens first — required before any authenticated API call
       await saveTokens(data.access_token, data.refresh_token);
 
-      // Navigate to the app
+      // Save onboarding answers now that we have a token
+      try {
+        await saveOnboarding({
+          sobriety_status,
+          framework_orientation: framework,
+          trigger_map: trigger_map ? JSON.parse(trigger_map) : undefined,
+          their_why,
+        });
+      } catch (onboardingErr) {
+        console.log("Onboarding save failed:", onboardingErr);
+      }
+
       router.replace("/chat");
     } catch (err: any) {
       setError(err.message || "Registration failed. Please try again.");

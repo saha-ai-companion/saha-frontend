@@ -1,16 +1,16 @@
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import React, { useRef, useState } from 'react';
 import {
-    Animated,
-    KeyboardAvoidingView,
-    Platform,
-    SafeAreaView,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Animated,
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 const TRIGGER_QUESTIONS = [
@@ -21,6 +21,11 @@ const TRIGGER_QUESTIONS = [
 ];
 
 export default function TriggerMappingScreen() {
+  const { sobriety_status, framework } = useLocalSearchParams<{
+    sobriety_status: string;
+    framework: string;
+  }>();
+
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<string[]>(['', '', '', '']);
   const fadeAnim = useRef(new Animated.Value(1)).current;
@@ -31,10 +36,25 @@ export default function TriggerMappingScreen() {
 
   const handleNext = () => {
     if (!canContinue) return;
+
     if (isLastQuestion) {
-      router.push('/why');
+      const trigger_map = {
+        situational: [answers[0]],
+        emotional: [answers[1]],
+        people_places: [answers[2]],
+        pre_craving: [answers[3]],
+      };
+      router.push({
+        pathname: '/why',
+        params: {
+          sobriety_status,
+          framework,
+          trigger_map: JSON.stringify(trigger_map),
+        },
+      });
       return;
     }
+
     Animated.sequence([
       Animated.timing(fadeAnim, { toValue: 0, duration: 200, useNativeDriver: true }),
       Animated.timing(fadeAnim, { toValue: 1, duration: 200, useNativeDriver: true }),
