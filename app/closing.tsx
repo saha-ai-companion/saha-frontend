@@ -1,17 +1,23 @@
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useRef } from 'react';
 import {
-    Animated,
-    SafeAreaView,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Animated,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 export default function ClosingReflectionScreen() {
   const fadeAnim = useRef(new Animated.Value(0)).current;
+  const { sobriety_status, framework, trigger_map, their_why } = useLocalSearchParams<{
+    sobriety_status: string;
+    framework: string;
+    trigger_map: string;
+    their_why: string;
+  }>();
 
   useEffect(() => {
     Animated.timing(fadeAnim, {
@@ -24,15 +30,12 @@ export default function ClosingReflectionScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.inner}>
-
         <View style={styles.progress}>
           {[0, 1, 2, 3, 4].map((i) => (
             <View key={i} style={[styles.dot, styles.dotDone]} />
           ))}
         </View>
-
         <Text style={styles.companionName}>Saha</Text>
-
         <Animated.View style={[styles.bubble, { opacity: fadeAnim }]}>
           <Text style={styles.bubbleText}>
             Thank you for sharing that with me.
@@ -50,17 +53,20 @@ export default function ClosingReflectionScreen() {
             Let's begin.
           </Text>
         </Animated.View>
-
         <Animated.View style={{ opacity: fadeAnim }}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => router.replace('/chat')}
+            onPress={() =>
+              router.replace({
+                pathname: '/(auth)/register',
+                params: { sobriety_status, framework, trigger_map, their_why },
+              })
+            }
             activeOpacity={0.8}
           >
             <Text style={styles.buttonText}>Start</Text>
           </TouchableOpacity>
         </Animated.View>
-
       </ScrollView>
     </SafeAreaView>
   );

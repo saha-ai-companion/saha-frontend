@@ -1,15 +1,15 @@
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import {
-    ActivityIndicator,
-    KeyboardAvoidingView,
-    Platform,
-    SafeAreaView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { loginUser } from '../../services/api';
 
@@ -32,7 +32,7 @@ export default function LoginScreen() {
       // Login successful — store token and go to chat
       // Sprint 3 — store access_token in expo-secure-store here
       console.log('Login successful, token:', data.access_token);
-      router.replace('/');
+      router.replace('/chat');
     } catch (err: any) {
       setError(err.message || 'Login failed. Please try again.');
     } finally {

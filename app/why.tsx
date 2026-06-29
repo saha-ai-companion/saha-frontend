@@ -1,20 +1,25 @@
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import React, { useState } from 'react';
 import {
-    KeyboardAvoidingView,
-    Platform,
-    SafeAreaView,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 export default function TheirWhyScreen() {
-  const [answer, setAnswer] = useState('');
+  const { sobriety_status, framework, trigger_map } = useLocalSearchParams<{
+    sobriety_status: string;
+    framework: string;
+    trigger_map: string;
+  }>();
 
+  const [answer, setAnswer] = useState('');
   const canContinue = answer.trim().length > 4;
 
   return (
@@ -65,7 +70,18 @@ export default function TheirWhyScreen() {
 
           <TouchableOpacity
             style={[styles.button, !canContinue && styles.buttonDisabled]}
-            onPress={() => canContinue && router.push('/closing')}
+            onPress={() =>
+              canContinue &&
+              router.push({
+                pathname: '/closing',
+                params: {
+                  sobriety_status,
+                  framework,
+                  trigger_map,
+                  their_why: answer.trim(),
+                },
+              })
+            }
             disabled={!canContinue}
             activeOpacity={0.8}
           >

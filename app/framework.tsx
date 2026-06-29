@@ -1,12 +1,12 @@
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import React, { useState } from 'react';
 import {
-    SafeAreaView,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 const FRAMEWORK_OPTIONS = [
@@ -17,6 +17,7 @@ const FRAMEWORK_OPTIONS = [
 ];
 
 export default function FrameworkScreen() {
+  const { sobriety_status } = useLocalSearchParams<{ sobriety_status: string }>();
   const [selected, setSelected] = useState<string | null>(null);
 
   return (
@@ -65,7 +66,16 @@ export default function FrameworkScreen() {
 
         <TouchableOpacity
           style={[styles.button, !selected && styles.buttonDisabled]}
-          onPress={() => selected && router.push('/trigger')}
+          onPress={() =>
+            selected &&
+            router.push({
+              pathname: '/trigger',
+              params: {
+                sobriety_status,
+                framework: selected,
+              },
+            })
+          }
           disabled={!selected}
           activeOpacity={0.8}
         >
