@@ -1,5 +1,5 @@
-import { router, useLocalSearchParams } from 'expo-router';
-import React, { useEffect, useRef } from 'react';
+import { router, useLocalSearchParams } from "expo-router";
+import React, { useEffect, useRef } from "react";
 import {
   Animated,
   SafeAreaView,
@@ -8,16 +8,17 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from 'react-native';
+} from "react-native";
 
 export default function ClosingReflectionScreen() {
   const fadeAnim = useRef(new Animated.Value(0)).current;
-  const { sobriety_status, framework, trigger_map, their_why } = useLocalSearchParams<{
-    sobriety_status: string;
-    framework: string;
-    trigger_map: string;
-    their_why: string;
-  }>();
+  const { sobriety_status, framework, trigger_map, their_why } =
+    useLocalSearchParams<{
+      sobriety_status: string;
+      framework: string;
+      trigger_map: string;
+      their_why: string;
+    }>();
 
   useEffect(() => {
     Animated.timing(fadeAnim, {
@@ -41,24 +42,21 @@ export default function ClosingReflectionScreen() {
             Thank you for sharing that with me.
           </Text>
           <Text style={styles.bubbleText}>
-            I heard what you said about why you are doing this.
-            I will remember it — not as a note, but as something
-            that matters to you.
+            I heard what you said about why you are doing this. I will remember
+            it — not as a note, but as something that matters to you.
           </Text>
           <Text style={styles.bubbleText}>
-            I will check in with you tomorrow morning.
-            You can message me any time — day or night.
+            I will check in with you tomorrow morning. You can message me any
+            time — day or night.
           </Text>
-          <Text style={styles.bubbleText}>
-            Let's begin.
-          </Text>
+          <Text style={styles.bubbleText}>Let's begin.</Text>
         </Animated.View>
         <Animated.View style={{ opacity: fadeAnim }}>
           <TouchableOpacity
             style={styles.button}
             onPress={() =>
               router.replace({
-                pathname: '/(auth)/register',
+                pathname: "/(auth)/register",
                 params: { sobriety_status, framework, trigger_map, their_why },
               })
             }
@@ -73,14 +71,25 @@ export default function ClosingReflectionScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#FAFAF9' },
-  inner: { flexGrow: 1, paddingHorizontal: 28, paddingTop: 40, paddingBottom: 48, justifyContent: 'space-between' },
-  progress: { flexDirection: 'row', gap: 6, marginBottom: 40 },
-  dot: { width: 8, height: 8, borderRadius: 4, backgroundColor: '#E5E7EB' },
-  dotDone: { backgroundColor: '#5DCAA5' },
-  companionName: { fontSize: 13, fontWeight: '500', color: '#6B7280', marginBottom: 10 },
+  container: { flex: 1, backgroundColor: "#FAFAF9" },
+  inner: {
+    flexGrow: 1,
+    paddingHorizontal: 28,
+    paddingTop: 40,
+    paddingBottom: 48,
+    justifyContent: "space-between",
+  },
+  progress: { flexDirection: "row", gap: 6, marginBottom: 40 },
+  dot: { width: 8, height: 8, borderRadius: 4, backgroundColor: "#E5E7EB" },
+  dotDone: { backgroundColor: "#5DCAA5" },
+  companionName: {
+    fontSize: 13,
+    fontWeight: "500",
+    color: "#6B7280",
+    marginBottom: 10,
+  },
   bubble: {
-    backgroundColor: '#F3F4F6',
+    backgroundColor: "#F3F4F6",
     borderRadius: 20,
     borderBottomLeftRadius: 4,
     paddingHorizontal: 20,
@@ -88,9 +97,14 @@ const styles = StyleSheet.create({
     gap: 16,
     flex: 1,
     marginBottom: 40,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
-  bubbleText: { fontSize: 18, color: '#111827', lineHeight: 28 },
-  button: { backgroundColor: '#1A4A7A', borderRadius: 14, paddingVertical: 16, alignItems: 'center' },
-  buttonText: { fontSize: 17, fontWeight: '500', color: '#FFFFFF' },
+  bubbleText: { fontSize: 18, color: "#111827", lineHeight: 28 },
+  button: {
+    backgroundColor: "#1A4A7A",
+    borderRadius: 14,
+    paddingVertical: 16,
+    alignItems: "center",
+  },
+  buttonText: { fontSize: 17, fontWeight: "500", color: "#FFFFFF" },
 });

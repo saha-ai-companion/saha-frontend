@@ -1,5 +1,5 @@
-import { router, useLocalSearchParams } from 'expo-router';
-import React, { useState } from 'react';
+import { router, useLocalSearchParams } from "expo-router";
+import React, { useState } from "react";
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
@@ -11,22 +11,23 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-} from 'react-native';
-import { saveTokens } from '../../lib/storage';
-import { registerUser, saveOnboarding } from '../../services/api';
+} from "react-native";
+import { saveTokens } from "../../lib/storage";
+import { registerUser, saveOnboarding } from "../../services/api";
 
 export default function RegisterScreen() {
-  const { sobriety_status, framework, trigger_map, their_why } = useLocalSearchParams<{
-    sobriety_status: string;
-    framework: string;
-    trigger_map: string;
-    their_why: string;
-  }>();
+  const { sobriety_status, framework, trigger_map, their_why } =
+    useLocalSearchParams<{
+      sobriety_status: string;
+      framework: string;
+      trigger_map: string;
+      their_why: string;
+    }>();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const canRegister =
@@ -38,11 +39,11 @@ export default function RegisterScreen() {
     if (!canRegister) return;
 
     if (password !== confirmPassword) {
-      setError('Passwords do not match.');
+      setError("Passwords do not match.");
       return;
     }
 
-    setError('');
+    setError("");
     setLoading(true);
 
     try {
@@ -60,12 +61,12 @@ export default function RegisterScreen() {
           their_why,
         });
       } catch (onboardingErr) {
-        console.log('Onboarding save failed:', onboardingErr);
+        console.log("Onboarding save failed:", onboardingErr);
       }
 
-      router.replace('/chat');
+      router.replace("/chat");
     } catch (err: any) {
-      setError(err.message || 'Registration failed. Please try again.');
+      setError(err.message || "Registration failed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -75,7 +76,7 @@ export default function RegisterScreen() {
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <ScrollView
           contentContainerStyle={styles.inner}
@@ -94,7 +95,10 @@ export default function RegisterScreen() {
               <TextInput
                 style={styles.input}
                 value={email}
-                onChangeText={(t) => { setEmail(t); setError(''); }}
+                onChangeText={(t) => {
+                  setEmail(t);
+                  setError("");
+                }}
                 placeholder="you@example.com"
                 placeholderTextColor="#9CA3AF"
                 keyboardType="email-address"
@@ -108,7 +112,10 @@ export default function RegisterScreen() {
               <TextInput
                 style={styles.input}
                 value={password}
-                onChangeText={(t) => { setPassword(t); setError(''); }}
+                onChangeText={(t) => {
+                  setPassword(t);
+                  setError("");
+                }}
                 placeholder="Minimum 8 characters"
                 placeholderTextColor="#9CA3AF"
                 secureTextEntry
@@ -123,7 +130,10 @@ export default function RegisterScreen() {
               <TextInput
                 style={styles.input}
                 value={confirmPassword}
-                onChangeText={(t) => { setConfirmPassword(t); setError(''); }}
+                onChangeText={(t) => {
+                  setConfirmPassword(t);
+                  setError("");
+                }}
                 placeholder="Repeat your password"
                 placeholderTextColor="#9CA3AF"
                 secureTextEntry
@@ -133,7 +143,10 @@ export default function RegisterScreen() {
             {error ? <Text style={styles.error}>{error}</Text> : null}
 
             <TouchableOpacity
-              style={[styles.button, (!canRegister || loading) && styles.buttonDisabled]}
+              style={[
+                styles.button,
+                (!canRegister || loading) && styles.buttonDisabled,
+              ]}
               onPress={handleRegister}
               disabled={!canRegister || loading}
               activeOpacity={0.8}
@@ -141,7 +154,12 @@ export default function RegisterScreen() {
               {loading ? (
                 <ActivityIndicator color="#FFFFFF" />
               ) : (
-                <Text style={[styles.buttonText, !canRegister && styles.buttonTextDisabled]}>
+                <Text
+                  style={[
+                    styles.buttonText,
+                    !canRegister && styles.buttonTextDisabled,
+                  ]}
+                >
                   Create account
                 </Text>
               )}
@@ -150,11 +168,10 @@ export default function RegisterScreen() {
 
           <View style={styles.footer}>
             <Text style={styles.footerText}>Already have an account? </Text>
-            <TouchableOpacity onPress={() => router.push('/(auth)/login')}>
+            <TouchableOpacity onPress={() => router.push("/(auth)/login")}>
               <Text style={styles.footerLink}>Sign in</Text>
             </TouchableOpacity>
           </View>
-
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -162,43 +179,84 @@ export default function RegisterScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#FAFAF9' },
-  inner: { flexGrow: 1, paddingHorizontal: 28, paddingTop: 60, paddingBottom: 48 },
+  container: { flex: 1, backgroundColor: "#FAFAF9" },
+  inner: {
+    flexGrow: 1,
+    paddingHorizontal: 28,
+    paddingTop: 60,
+    paddingBottom: 48,
+  },
   header: { marginBottom: 40 },
-  title: { fontSize: 28, fontWeight: '600', color: '#111827', marginBottom: 8 },
-  subtitle: { fontSize: 16, color: '#6B7280', lineHeight: 24 },
+  title: {
+    fontSize: 28,
+    fontWeight: "600",
+    color: "#111827",
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: "#6B7280",
+    lineHeight: 24,
+  },
   form: { gap: 20, marginBottom: 40 },
   fieldGroup: { gap: 8 },
-  label: { fontSize: 14, fontWeight: '500', color: '#374151' },
+  label: {
+    fontSize: 14,
+    fontWeight: "500",
+    color: "#374151",
+  },
   input: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: "#FFFFFF",
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#E5E7EB',
+    borderColor: "#E5E7EB",
     paddingHorizontal: 16,
     paddingVertical: 14,
     fontSize: 16,
-    color: '#111827',
+    color: "#111827",
   },
-  hint: { fontSize: 12, color: '#9CA3AF', marginTop: 4 },
+  hint: {
+    fontSize: 12,
+    color: "#9CA3AF",
+    marginTop: 4,
+  },
   error: {
     fontSize: 14,
-    color: '#A32D2D',
-    backgroundColor: '#FCEBEB',
+    color: "#A32D2D",
+    backgroundColor: "#FCEBEB",
     padding: 12,
     borderRadius: 8,
   },
   button: {
-    backgroundColor: '#1A4A7A',
+    backgroundColor: "#1A4A7A",
     borderRadius: 14,
     paddingVertical: 16,
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 8,
   },
-  buttonDisabled: { backgroundColor: '#E5E7EB' },
-  buttonText: { fontSize: 17, fontWeight: '500', color: '#FFFFFF' },
-  buttonTextDisabled: { color: '#9CA3AF' },
-  footer: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center' },
-  footerText: { fontSize: 15, color: '#6B7280' },
-  footerLink: { fontSize: 15, color: '#1A4A7A', fontWeight: '500' },
+  buttonDisabled: {
+    backgroundColor: "#E5E7EB",
+  },
+  buttonText: {
+    fontSize: 17,
+    fontWeight: "500",
+    color: "#FFFFFF",
+  },
+  buttonTextDisabled: {
+    color: "#9CA3AF",
+  },
+  footer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  footerText: {
+    fontSize: 15,
+    color: "#6B7280",
+  },
+  footerLink: {
+    fontSize: 15,
+    color: "#1A4A7A",
+    fontWeight: "500",
+  },
 });
